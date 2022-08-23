@@ -30,3 +30,23 @@ COMMIT 2 Add Restaurant done, fields validated as well, REST API Endpoints-I
 -> getAllRestaurants added in restaurant.controller.js, returns the response when no restaurant exists, and even when restaurants are there, with 200 status, otherwise returns 500 error
 
 COMMIT 3 Get ALL Restaurants done, REST API Endpoints-II
+
+4. Get Restaurant categories, 
+-> here category is read from request parameter as req.params.category
+-> Further Restaurant.find({category : req.params.category}) , finds all restaurant for the specified category
+-> further 200 OK is returned if any restaurant for given category is found or not.
+-> in case any error occurs then 500 code is returned.
+
+5. Get details of particular based on specified restaurant id
+-> the document having specified id is found using findById having id as req.params.id.
+-> the response is given then 404 if restaurant not found for that id, otherwise 200 ok is returned.
+
+6. Get all restaurants having rating more than or equal to specified rating value
+-> All restaurants having atleast specified rating is found using find, ie,  
+const restaurants = await Restaurant.find({
+    rating : {$gte : req.params.ratingValue}
+})
+-> further response is given, for empty as well 200 is returned, for some error 500 is returned
+
+COMMIT 4, REST API Endpoints-III done, GET /api/restaurant/categories, GET /api/restaurant/categories/categoryName, GET /api/restaurant/id, GET /api/restaurant/rating/ratingValue DONE
+

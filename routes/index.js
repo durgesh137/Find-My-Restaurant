@@ -17,4 +17,25 @@ module.exports = (app) => {
     * 2. GET + 'api/restaurant/
    */
     app.get('/findMyRestaurant/api/restaurant/', restaurantController.getAllRestaurants); 
+
+    /**
+     * 3. GET + 'api/restaurant/categories'
+    */
+     app.get('/findMyRestaurant/api/restaurant/categories', restaurantController.getRestaurantCategories); 
+
+    /**
+     * 4. GET + 'api/restaurant/categories/category'
+    */
+     app.get('/findMyRestaurant/api/restaurant/categories/:category', restaurantController.allRestaurantsOfGivenCategory );      
+
+    /**
+      * 5. GET + ''api/restaurant/id'
+      * -> _id is associated with Restaurant document internally
+    */
+     app.get('/findMyRestaurant/api/restaurant/:id', restaurantController.getRestaurantHavingSpecifiedId );      
+
+    /**
+      * 6. GET + ''api/restaurant/rating/ratingValue'
+    */
+     app.get('/findMyRestaurant/api/restaurant/rating/:ratingValue', restaurantController.allRestaurantsHavingSpecifiedRating );           
 }
