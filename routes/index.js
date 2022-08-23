@@ -12,4 +12,9 @@ module.exports = (app) => {
      * 1. POST + '/api/restaurant/add'
     */
    app.post('/findMyRestaurant/api/restaurant/add', [restaurantValidator.checkRestaurantDetails], restaurantController.addRestaurant);
+
+   /**
+    * 2. GET + 'api/restaurant/
+   */
+    app.get('/findMyRestaurant/api/restaurant/', restaurantController.getAllRestaurants); 
 }

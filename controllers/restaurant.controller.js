@@ -44,7 +44,45 @@ const addRestaurant = async(req, res) => {
     }
 }
 
+/**
+ * This functions provides details all restaurants present in collection
+ */
+const getAllRestaurants = async (req, res) => {
+    try{
+        const allRestaurants = await Restaurant.find();
 
+        /**
+         * check any record does not exist
+         */
+        if(allRestaurants && allRestaurants.length == 0){
+            //prepare the response
+            const emptyResponse = {
+                restaurants : [],
+                message : 'Restaurants fetched successfully'
+            }
+            //send the resposne
+            return res.status(200).send(emptyResponse);
+        }
+        
+        /**
+         * prepare the post response
+        */
+        const postResponse = {
+            restaurants : allRestaurants
+        }
+
+        /**
+         * send the response
+         */
+        return res.status(200).send(postResponse)
+    }catch(err){
+        console.log(err.message);
+        return res.status(500).send({
+            message : 'Some error occured while fetching the Restaurants'
+        })
+    }
+}
 module.exports = {
-    addRestaurant : addRestaurant
+    addRestaurant : addRestaurant,
+    getAllRestaurants : getAllRestaurants
 }

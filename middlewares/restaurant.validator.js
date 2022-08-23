@@ -18,9 +18,6 @@ const checkRestaurantDetails = (req, res, next) => {
         })
     }
 
-    console.log('description: ', req.body.description);
-    console.log('name: ', req.body.description);
-
     /**
      * validate description field
     */
@@ -28,7 +25,6 @@ const checkRestaurantDetails = (req, res, next) => {
         console.log('executed')
         req.body.description = defaults.DESCRIPTION
     }
-    console.log('check with !description: ', req.body.description);
     
     /**
      * validate name field

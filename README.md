@@ -24,3 +24,9 @@ HttpStatus.OK - 200: This will be used if the request made by the user results i
 HttpStatus.BAD_REQUEST - 500: This will be used if the server doesn’t understand the request due to invalid syntax or an internal error.
 
 COMMIT 2 Add Restaurant done, fields validated as well, REST API Endpoints-I
+
+3. Get all restaurants detail
+-> no middleware requirement
+-> getAllRestaurants added in restaurant.controller.js, returns the response when no restaurant exists, and even when restaurants are there, with 200 status, otherwise returns 500 error
+
+COMMIT 3 Get ALL Restaurants done, REST API Endpoints-II
