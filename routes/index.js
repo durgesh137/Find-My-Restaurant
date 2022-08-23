@@ -38,4 +38,20 @@ module.exports = (app) => {
       * 6. GET + ''api/restaurant/rating/ratingValue'
     */
      app.get('/findMyRestaurant/api/restaurant/rating/:ratingValue', restaurantController.allRestaurantsHavingSpecifiedRating );           
+
+    /**
+      * 7. PUT + ''api/restaurant/:id'
+    */
+     app.put('/findMyRestaurant/api/restaurant/:id' ,[restaurantValidator.checkRestaurantUpdationDetails],restaurantController.updateRestaurant );
+
+    /**
+      * 7. DELETE + ''api/restaurant/:id'
+    */
+     app.delete('/findMyRestaurant/api/restaurant/:id' ,restaurantController.deleteRestaurant );
+
+    /**
+      * 7. DELETE + ''api/restaurant/:id'
+    */
+     app.delete('/findMyRestaurant/api/restaurant/' ,restaurantController.deleteAllRestaurant );     
+     
 }

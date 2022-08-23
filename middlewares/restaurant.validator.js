@@ -22,7 +22,6 @@ const checkRestaurantDetails = (req, res, next) => {
      * validate description field
     */
     if(!req.body.description){
-        console.log('executed')
         req.body.description = defaults.DESCRIPTION
     }
     
@@ -102,6 +101,82 @@ const checkRestaurantDetails = (req, res, next) => {
     next();
 }
 
+/**
+ * This function validates the new restaurant values for updation
+ */
+const checkRestaurantUpdationDetails = (req, res, next) => {
+    /**
+     * check if updation data is given in response body
+     */
+    if(req.body.constructor === Object && Object.keys(req.body).length === 0) {
+        //body is empty
+        return res.status(400).send({
+            message : 'Restaurant Data is required'
+        })
+    }
+
+    //validate name
+    if(req.body.name && req.body.name === ""){
+        return res.status(400).send({
+            message : "Restaurant Data is required"
+        })          
+    }    
+
+    /**
+     * validate category field
+    */
+    if(req.body.category && req.body.category === ""){
+        return res.status(400).send({
+            message : "Restaurant Data is required"
+        })          
+
+    }
+
+    /**
+     * validate imageUrl field
+    */
+     if(req.body.imageURL && req.body.imageURL === ""){
+        return res.status(400).send({
+            message : "Restaurant Data is required"
+        })          
+    } 
+
+    /**
+     * validate location field
+    */
+     if(req.body.location && req.body.location === ""){
+        return res.status(400).send({
+            message : "Restaurant Data is required"
+        })     
+    }    
+
+    /**
+     * validate phone field
+    */
+     if(req.body.phone){
+        //validate the phone number
+        if(!(/^[1-9][0-9]{9}$/).test(req.body.phone)){
+            return res.status(500).send({
+                message : 'Invalid contact number!'
+            });
+        }
+    }    
+
+    /**
+     * validate rating field
+    */
+     if(req.body.rating){
+        if(req.body.rating <= 0){
+            return res.status(500).send({
+                message : "Rating can't be negative"
+            })
+        }
+    }    
+
+    next();
+}
+
 module.exports = {
-    checkRestaurantDetails : checkRestaurantDetails
+    checkRestaurantDetails : checkRestaurantDetails,
+    checkRestaurantUpdationDetails : checkRestaurantUpdationDetails
 }

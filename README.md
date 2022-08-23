@@ -50,3 +50,21 @@ const restaurants = await Restaurant.find({
 
 COMMIT 4, REST API Endpoints-III done, GET /api/restaurant/categories, GET /api/restaurant/categories/categoryName, GET /api/restaurant/id, GET /api/restaurant/rating/ratingValue DONE
 
+7. Put + update restaurant detail based on id
+-> updation details are first validates in restaurant.validator, checkRestaurantUpdationDetails does this
+-> updateRestaurant in restaurant.controller updates the restaurant
+
+8. Delete restaurant having specified id
+-> deleteRestaurant method in restaurant.controller deletes the restaurant from restaurant collection
+-> First restaurant for the given id is fetched
+-> If invalid, then corresponding response with message is returned.
+-> If valid then post response is prepared prior to deletion the document
+-> further that restaurant is deleted and response is given.
+-> if any error occurs then 500 status code with message is returned.
+
+9. Delete all restaurants present in restaurants collection
+-> all restaurants documents are deleted using deleteMany as
+await Restaurant.deleteMany();
+-> in case any restaurant does not exist even 200 ok response is returned
+
+COMMIT 5, REST API Endpoints-IV done, update, delete a restaurant, and delete all restaurants in one go, are done 

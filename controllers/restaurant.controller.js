@@ -175,7 +175,7 @@ const getRestaurantHavingSpecifiedId = async(req, res) => {
             message : 'No Restaurant found with the given ID'
         })
     }
-
+    
 }
 
 /**
@@ -209,11 +209,151 @@ const allRestaurantsHavingSpecifiedRating = async(req, res) => {
     }
 }
 
+/**
+ * 
+*/
+const updateRestaurant = async(req, res) => {
+    try{
+        /**
+         * 1. fetch restaurant object for the specified id
+         */
+        const existingRestaurant = await Restaurant.findById(req.params.id);
+
+        /**
+         * Check if resturant is valid one
+         */
+        if(!existingRestaurant){
+            return res.status(200).send({
+                message : 'No Restaurant found for given ID.'
+            })
+        }
+        /**
+         * 2. read details from request body for updation
+        */
+        existingRestaurant.name = req.body.name != undefined ? req.body.name : existingRestaurant.name;
+        existingRestaurant.description = req.body.description != undefined ? req.body.description : existingRestaurant.description;
+        existingRestaurant.category = req.body.category != undefined ? req.body.category : existingRestaurant.category;
+        existingRestaurant.imageURL = req.body.imageURL != undefined ? req.body.imageURL : existingRestaurant.imageURL;
+        existingRestaurant.location = req.body.location != undefined ? req.body.location : existingRestaurant.location;
+        existingRestaurant.phone = req.body.phone != undefined ? req.body.phone : existingRestaurant.phone;
+        existingRestaurant.rating = req.body.rating != undefined ? req.body.rating : existingRestaurant.rating;
+
+       /**
+        * now save the new details to existing restaurant
+        */
+       await existingRestaurant.save()
+
+       return res.status(200).send({
+        message : 'Restaurant updated successfully'
+       })
+    }catch(err){
+        console.log(err.message)
+        return res.status(500).send({
+            message : 'Some error occured while fetching the Restaurant'
+        })
+    }
+}
+
+/**
+ * this function deletes the restaurant having specified id
+*/
+const deleteRestaurant = async(req, res) => {
+    try{
+        /**
+         * find the restaurant having specified id
+         */
+        const restaurant = await Restaurant.findById(req.params.id);
+
+        /**
+         * check restaurant is valid one
+         */
+        if(!restaurant){
+            return res.status(200).send({
+                message : {
+                    restaurant : null,
+                    message : 'Restaurant deleted successfully'
+                }
+            })
+        }
+
+        /**
+         * prepare the post response prior to deletion
+         */
+        const postResponse = {
+            restaurant,
+            message : "Restaurant deleted successfully"
+        }
+
+        /**
+         * delete the restaurant object now
+        */
+        await restaurant.deleteOne();
+
+        /**
+         * return the success response
+        */
+       return res.status(200).send(postResponse);
+    }catch(err){
+        return res.status(500).send({
+            message : 'Some error occured while deleting the Restaurant.'
+        })
+    }
+} 
+
+/**
+ * This function deletes all the restaurants present in collection 
+*/
+const deleteAllRestaurant = async(req, res) => {
+    try{
+        /**
+         * fetch all restaurants from collection
+         */
+        const restaurants = await Restaurant.find();
+
+        /**
+         * checks if any restaurant exist or not
+         */
+        if(!restaurants){
+            return res.status(200).send({
+                restaurants : {
+                    acknowledged : true,
+                    deletedCount : 0
+                },
+                message : "Restaurants deleted successfully."
+            })
+        }
+
+        const deleteCount = restaurants.length;
+        /**
+         * delete all restaurants one by one
+         */
+        await Restaurant.deleteMany();
+        
+        /**
+         * provide the success response
+        */
+         return res.status(200).send({
+            restaurants : {
+                acknowledged : true,
+                deletedCount : deleteCount
+            },
+            message : "Restaurants deleted successfully."
+        })
+    }catch(err){
+        console.log(err.message);
+        return res.status(500).send({
+            message : 'Some error occured while deleting the Restaurant.'
+        })
+    }
+}
 module.exports = {
     addRestaurant : addRestaurant,
     getAllRestaurants : getAllRestaurants,
     getRestaurantCategories : getRestaurantCategories,
     allRestaurantsOfGivenCategory : allRestaurantsOfGivenCategory,
     getRestaurantHavingSpecifiedId : getRestaurantHavingSpecifiedId,
-    allRestaurantsHavingSpecifiedRating : allRestaurantsHavingSpecifiedRating
+    allRestaurantsHavingSpecifiedRating : allRestaurantsHavingSpecifiedRating,
+    updateRestaurant : updateRestaurant,
+    deleteRestaurant : deleteRestaurant,
+    deleteAllRestaurant : deleteAllRestaurant
 }
